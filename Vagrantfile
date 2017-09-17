@@ -14,11 +14,14 @@ TOKEN = "7d0576.ee0f7f72653463dd"
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_BASE
   config.vm.box_check_update = false
+  
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
 
   config.vm.provider "virtualbox" do |vb|
     vb.cpus = BOX_CPU_COUNT
     vb.memory = BOX_RAM_MB
-  
   end
   
   (1..3).each do |i|
@@ -48,10 +51,6 @@ Vagrant.configure("2") do |config|
         end
       end            
     end
-  end
-  
-  if Vagrant.has_plugin?("vagrant-cachier")
-      config.cache.scope = :box
   end
 
 end
