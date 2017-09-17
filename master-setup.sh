@@ -1,5 +1,4 @@
 #!/bin/sh
-echo $(whoami)
 
 # move kubecfg file to home folder
 mkdir -p $HOME/.kube
