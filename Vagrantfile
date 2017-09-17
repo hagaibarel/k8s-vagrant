@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
       c.vm.network "private_network", ip: "192.168.77.1#{i}"
       
       c.vm.provision "shell", path: "install.sh"
-      c.vm.provision "shell", inline: "sed 's/127\.0\.0\.1.*master.*/192\.168\.77\.1#{i} k8s#{i}/' -i /etc/hosts"
+      c.vm.provision "shell", inline: "sed 's/127.0.0.1.*k8s#{i}/192.168.77.1#{i} k8s#{i}/' -i /etc/hosts"
       
       if i == 1
         #master node
