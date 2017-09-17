@@ -1,5 +1,10 @@
 #!/bin/sh
 
+echo "apiserver address $1"
+echo "join token $2"
+
+sudo kubeadm init --apiserver-advertise-address $1 --token $2
+
 # move kubecfg file to home folder
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

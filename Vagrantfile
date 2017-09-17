@@ -35,19 +35,15 @@ Vagrant.configure("2") do |config|
       if i == 1
         #master node
         c.vm.provision "shell" do |s| 
-          s.inline = "kubeadm init --apiserver-advertise-address $1 --token $2"
+          s.path = "master-setup.sh" 
+          s.privileged = false
           s.args = [MASTER_ADDRESS, TOKEN]
         end
-        c.vm.provision "shell", path: "master-setup.sh", privileged: false
       else
-        #minion nodes
+        #worker nodes
         c.vm.provision "shell" do |s|
-          s.inline = "kubeadm join --token $1 $2:6443"
-          s.args = [TOKEN, MASTER_ADDRESS]
-        end
-        c.vm.provision "shell" do |s|
-          s.inline = "route add 10.96.0.1 gw $1"
-          s.args = [MASTER_ADDRESS]
+          s.path = "worker-setup.sh"
+          s.args = [MASTER_ADDRESS, TOKEN]
         end
       end            
     end
