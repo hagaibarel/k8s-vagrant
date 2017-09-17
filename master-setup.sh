@@ -16,4 +16,4 @@ export kubever=$(kubectl version | base64 | tr -d '\n')
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever" 
 
 # copy kubecfg file to shared vagrant directory
-cp -rf $HOME/.kube/config /vagrant/config
+cp -rf $HOME/.kube/config /vagrant/admin.conf
