@@ -2,9 +2,11 @@
 # vi: set ft=ruby :
 
 ### configuration parameters
+### Box parameters
 BOX_BASE = "ubuntu/xenial64"
 BOX_CPU_COUNT = 1
 BOX_RAM_MB = "2048"
+### kubeadm parameters
 MASTER_ADDRESS = "192.168.77.11"
 TOKEN = "7d0576.ee0f7f72653463dd"
 
@@ -15,6 +17,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = BOX_BASE
   config.vm.box_check_update = false
   
+  # use cache plugin if available
+  # https://github.com/fgrehm/vagrant-cachier
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
   end
@@ -35,7 +39,7 @@ Vagrant.configure("2") do |config|
       if i == 1
         #master node
         c.vm.provision "shell" do |s| 
-          s.path = "master-setup.sh" 
+          s.path = "master-setup.sh"
           s.privileged = false
           s.args = [MASTER_ADDRESS, TOKEN]
         end
