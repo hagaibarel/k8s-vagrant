@@ -6,16 +6,16 @@
 
 ### configuration parameters
 ### Box parameters
-BOX_BASE = "ubuntu/xenial64"
-BOX_CPU_COUNT = 1
-BOX_RAM_MB = "2048"
+box_base = "ubuntu/xenial64"
+boc_cpu_count = 1
+box_ram_mb = "2048"
 ### kubeadm parameters
 master_ip = "192.168.77.10"
-token = "7d0576.ee0f7f72653463dd"
+join_token = "7d0576.ee0f7f72653463dd"
 worker_count = 2
 
 Vagrant.configure("2") do |config|
-  config.vm.box = BOX_BASE
+  config.vm.box = box_base
   config.vm.box_check_update = false
   config.vm.provision "shell", path: "install.sh"
   
@@ -26,8 +26,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "virtualbox" do |vb|
-    vb.cpus = BOX_CPU_COUNT
-    vb.memory = BOX_RAM_MB
+    vb.cpus = boc_cpu_count
+    vb.memory = box_ram_mb
   end
 
   # master node configuration
@@ -39,10 +39,11 @@ Vagrant.configure("2") do |config|
       s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
       s.args = [master_ip, master.vm.hostname]
     end
+    
     master.vm.provision "shell" do |s|
       s.path = "master-setup.sh"
       s.privileged = false
-      s.args = [master_ip, token]
+      s.args = [master_ip, join_token]
     end
   end
   
@@ -50,6 +51,7 @@ Vagrant.configure("2") do |config|
   (1..worker_count).each do |i|
     config.vm.define "kube-worker#{i}" do |worker|
       worker_ip = master_ip.split('.').tap{|arr| arr[-1] = arr[-1].to_i + i}.join('.')
+      
       worker.vm.hostname = "kube-worker#{i}"
       worker.vm.network "private_network", ip: worker_ip
             
@@ -57,9 +59,10 @@ Vagrant.configure("2") do |config|
         s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
         s.args = [worker_ip, worker.vm.hostname]
       end
+      
       worker.vm.provision "shell" do |s|
         s.path = "worker-setup.sh"
-        s.args = [master_ip, token]
+        s.args = [master_ip, join_token]
       end             
     end
   end
