@@ -7,7 +7,7 @@
 ### configuration parameters
 ### Box parameters
 box_base = "ubuntu/xenial64"
-boc_cpu_count = 1
+box_cpu_count = 1
 box_ram_mb = "2048"
 ### kubeadm parameters
 master_ip = "192.168.77.10"
@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider "virtualbox" do |vb|
-    vb.cpus = boc_cpu_count
+    vb.cpus = box_cpu_count
     vb.memory = box_ram_mb
   end
 
