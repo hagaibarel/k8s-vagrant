@@ -36,8 +36,8 @@ Vagrant.configure("2") do |config|
     master.vm.network "private_network", ip: master_ip
     
     master.vm.provision "shell" do |s|
-      s.inline = "sed 's/127.0.0.1.*kube-master/'$1' kube-master/' -i /etc/hosts"
-      s.args = [master_ip]
+      s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
+      s.args = [master_ip, master.vm.hostname]
     end
     master.vm.provision "shell" do |s|
       s.path = "master-setup.sh"
@@ -54,8 +54,8 @@ Vagrant.configure("2") do |config|
       worker.vm.network "private_network", ip: worker_ip
             
       worker.vm.provision "shell" do |s|
-        s.inline = "sed 's/127.0.0.1.*kube-worker#{i}/'$1' kube-worker#{i}/' -i /etc/hosts"
-        s.args = [worker_ip]
+        s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
+        s.args = [worker_ip, worker.vm.hostname]
       end
       worker.vm.provision "shell" do |s|
         s.path = "worker-setup.sh"
