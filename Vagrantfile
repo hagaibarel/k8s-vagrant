@@ -31,15 +31,15 @@ Vagrant.configure("2") do |config|
   end
 
   # master node configuration
-  config.vm.define "kube-master" do |c|
-    c.vm.hostname = "kube-master"
-    c.vm.network "private_network", ip: master_ip
+  config.vm.define "kube-master" do |master|
+    master.vm.hostname = "kube-master"
+    master.vm.network "private_network", ip: master_ip
     
-    c.vm.provision "shell" do |s|
+    master.vm.provision "shell" do |s|
       s.inline = "sed 's/127.0.0.1.*kube-master/'$1' kube-master/' -i /etc/hosts"
       s.args = [master_ip]
     end
-    c.vm.provision "shell" do |s|
+    master.vm.provision "shell" do |s|
       s.path = "master-setup.sh"
       s.privileged = false
       s.args = [master_ip, token]
@@ -48,16 +48,16 @@ Vagrant.configure("2") do |config|
   
   # worker nodes configuration
   (1..worker_count).each do |i|
-    config.vm.define "kube-worker#{i}" do |c|
-      worker_ip = master_ip.split('.').tap{|n| n[-1] = n[-1].to_i + i}.join('.')
-      c.vm.hostname = "kube-worker#{i}"
-      c.vm.network "private_network", ip: worker_ip
+    config.vm.define "kube-worker#{i}" do |worker|
+      worker_ip = master_ip.split('.').tap{|arr| arr[-1] = arr[-1].to_i + i}.join('.')
+      worker.vm.hostname = "kube-worker#{i}"
+      worker.vm.network "private_network", ip: worker_ip
             
-      c.vm.provision "shell" do |s|
+      worker.vm.provision "shell" do |s|
         s.inline = "sed 's/127.0.0.1.*kube-worker#{i}/'$1' kube-worker#{i}/' -i /etc/hosts"
         s.args = [worker_ip]
       end
-      c.vm.provision "shell" do |s|
+      worker.vm.provision "shell" do |s|
         s.path = "worker-setup.sh"
         s.args = [master_ip, token]
       end             
