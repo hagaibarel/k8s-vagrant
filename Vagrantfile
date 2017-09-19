@@ -12,12 +12,13 @@ box_ram_mb = "2048"
 ### kubeadm parameters
 master_ip = "192.168.77.10"
 join_token = "7d0576.ee0f7f72653463dd"
-worker_count = 2
+worker_count = 3
 
 Vagrant.configure("2") do |config|
   config.vm.box = box_base
   config.vm.box_check_update = false
   config.vm.provision "shell", path: "install.sh"
+  config.vm.post_up_message = "Done. don't forget to modify the $KUBECONFIG env var to include the cluster conf file located in this folder"
   
   # use cache plugin if available
   # https://github.com/fgrehm/vagrant-cachier
@@ -31,7 +32,7 @@ Vagrant.configure("2") do |config|
   end
 
   # master node configuration
-  config.vm.define "kube-master" do |master|
+  config.vm.define "kube-master", primary: true do |master|
     master.vm.hostname = "kube-master"
     master.vm.network "private_network", ip: master_ip
     
