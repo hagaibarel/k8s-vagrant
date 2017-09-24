@@ -1,4 +1,6 @@
 .vagrant
+.kube
 *.log
 *.conf
 config
+k8s-vagrant
