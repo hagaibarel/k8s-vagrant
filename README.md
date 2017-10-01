@@ -1,6 +1,6 @@
 # k8s-vagrant
-<img src="https://kubernetes.io/images/favicon.png" style="width: 100px; height: 100px"> 
-<img src="https://hyzxph.media.zestyio.com/Vagrant_VerticalLogo_FullColor.rkvQk0Hax.svg" style="width: 100px; height: 100px">
+<img src="https://kubernetes.io/images/favicon.png" width="100" height="100"> 
+<img src="https://hyzxph.media.zestyio.com/Vagrant_VerticalLogo_FullColor.rkvQk0Hax.svg" width="100" height="100">
 
 This Vagrant project will start a local kubernetes cluster, bootstrapped using kubeadm. Use the repository git tags to specify the relevant kubernetes version, For example, use the `1.8.0` tag to start a kubernetes version 1.8.0 cluster.
 
