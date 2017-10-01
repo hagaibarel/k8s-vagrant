@@ -14,6 +14,8 @@ master_ip = "192.168.77.10"
 join_token = "7d0576.ee0f7f72653463dd"
 worker_count = 3
 
+Vagrant.require_version ">= 2.0.0"
+
 Vagrant.configure("2") do |config|
   config.vm.box = box_base
   config.vm.box_check_update = false
