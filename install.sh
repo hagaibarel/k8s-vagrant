@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export KUBEVER=1.8.0-00
+export KUBEADMVER=1.8.1-01
+export KUBECTLVER=1.8.1-00
 export DOCKERVER=17.03.2~ce-0~ubuntu-xenial
 
 apt-get update && apt-get install -yq apt-transport-https \
@@ -25,6 +26,6 @@ add-apt-repository \
   stable"
 
 apt-get update && apt-get install -yq \
-  kubeadm=$KUBEVER \
-  kubectl=$KUBEVER \
+  kubeadm=$KUBEADMVER \
+  kubectl=$KUBECTLVER \
   docker-ce=$DOCKERVER
