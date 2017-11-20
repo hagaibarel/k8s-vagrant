@@ -20,7 +20,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = box_base
   config.vm.box_check_update = false
   config.vm.provision "shell", path: "install.sh"
-  config.vm.post_up_message = "Done. don't forget to modify the $KUBECONFIG env var to include the cluster conf file located in this folder"
   
   # use cache plugin if available
   # https://github.com/fgrehm/vagrant-cachier
@@ -48,6 +47,9 @@ Vagrant.configure("2") do |config|
       s.privileged = false
       s.args = [master_ip, join_token]
     end
+
+    master.vm.post_up_message = "Done. don't forget to modify the $KUBECONFIG env var to include the cluster conf file located in this folder"
+
   end
   
   # worker nodes configuration
