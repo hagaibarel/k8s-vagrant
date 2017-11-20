@@ -1,7 +1,7 @@
 #!/bin/sh
 
-export KUBEADMVER=1.8.1-01
-export KUBECTLVER=1.8.1-00
+export KUBEADMVER=1.8.3-00
+export KUBECTLVER=1.8.3-00
 export DOCKERVER=17.03.2~ce-0~ubuntu-xenial
 
 echo "running apt-get update and installing some packages"
