@@ -1,7 +1,5 @@
 #!/bin/sh
 
-export KUBEADMVER=1.8.4-00
-export KUBECTLVER=1.8.4-00
 export DOCKERVER=17.03.2~ce-0~ubuntu-xenial
 
 echo "running apt-get update and installing some packages"
@@ -28,6 +26,6 @@ add-apt-repository \
 
 echo "installing kubeadm and dependencies"
 apt-get update && apt-get install -yq \
-  kubeadm=$KUBEADMVER \
-  kubectl=$KUBECTLVER \
+  kubeadm \
+  kubectl \
   docker-ce=$DOCKERVER

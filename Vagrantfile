@@ -13,6 +13,11 @@ box_ram_mb = "2048"
 master_ip = "192.168.77.10"
 join_token = "7d0576.ee0f7f72653463dd"
 worker_count = 3
+### This can break compatibilty, use with care. 
+### Always make sure that kubeadm's version supports k8s version
+### This is only for the control plane components, 
+### kubelet and kubeadm will always be the latest available version
+kubernetes_version = "v1.8.4"
 
 Vagrant.require_version ">= 2.0.0"
 
@@ -45,7 +50,7 @@ Vagrant.configure("2") do |config|
     master.vm.provision "shell" do |s|
       s.path = "master-setup.sh"
       s.privileged = false
-      s.args = [master_ip, join_token]
+      s.args = [master_ip, join_token, kubernetes_version]
     end
 
     master.vm.post_up_message = "Done. don't forget to modify the $KUBECONFIG env var to include the cluster conf file located in this folder"

@@ -2,8 +2,9 @@
 
 echo "apiserver address $1"
 echo "join token $2"
+echo "kubernetes version $3"
 
-sudo kubeadm init --apiserver-advertise-address $1 --token $2
+sudo kubeadm init --apiserver-advertise-address $1 --token $2 --kubernetes-version $3
 
 # move kubecfg file to home folder
 mkdir -p $HOME/.kube
