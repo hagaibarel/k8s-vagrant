@@ -17,7 +17,7 @@ worker_count = 3
 ### Always make sure that kubeadm's version supports k8s version
 ### This is only for the control plane components, 
 ### kubelet and kubeadm will always be the latest available version
-kubernetes_version = "v1.8.4"
+kubernetes_version = "v1.9.3"
 
 Vagrant.require_version ">= 2.0.0"
 
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = box_base
   config.vm.box_check_update = false
   config.vm.provision "shell", path: "install.sh"
-  
+
   # use cache plugin if available
   # https://github.com/fgrehm/vagrant-cachier
   if Vagrant.has_plugin?("vagrant-cachier")
@@ -41,12 +41,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "kube-master", primary: true do |master|
     master.vm.hostname = "kube-master"
     master.vm.network "private_network", ip: master_ip
-    
+
     master.vm.provision "shell" do |s|
       s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
       s.args = [master_ip, master.vm.hostname]
     end
-    
+
     master.vm.provision "shell" do |s|
       s.path = "master-setup.sh"
       s.privileged = false
@@ -61,7 +61,7 @@ Vagrant.configure("2") do |config|
   (1..worker_count).each do |i|
     config.vm.define "kube-worker#{i}" do |worker|
       worker_ip = master_ip.split('.').tap{|arr| arr[-1] = arr[-1].to_i + i}.join('.')
-      
+
       worker.vm.hostname = "kube-worker#{i}"
       worker.vm.network "private_network", ip: worker_ip
             
@@ -69,11 +69,11 @@ Vagrant.configure("2") do |config|
         s.inline = "sed 's/127.0.0.1.*'$2'/'$1' '$2'/' -i /etc/hosts"
         s.args = [worker_ip, worker.vm.hostname]
       end
-      
+
       worker.vm.provision "shell" do |s|
         s.path = "worker-setup.sh"
         s.args = [master_ip, join_token]
-      end             
+      end
     end
   end
 end
