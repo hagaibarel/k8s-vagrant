@@ -17,7 +17,7 @@ worker_count = 3
 ### Always make sure that kubeadm's version supports k8s version
 ### This is only for the control plane components, 
 ### kubelet and kubeadm will always be the latest available version
-kubernetes_version = "v1.9.3"
+kubernetes_version = "v1.10.2"
 
 Vagrant.require_version ">= 2.0.0"
 

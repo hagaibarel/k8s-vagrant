@@ -1,33 +1,26 @@
 # k8s-vagrant
 <img src="https://kubernetes.io/images/favicon.png" width="100" height="100" /> <img src="https://hyzxph.media.zestyio.com/Vagrant_VerticalLogo_FullColor.rkvQk0Hax.svg" width="100" height="100" />
 
-This Vagrant project will start a local kubernetes cluster, bootstrapped using kubeadm. Use the repository git tags to specify the relevant kubernetes version, For example, use the `1.8.0` tag to start a kubernetes version 1.8.0 cluster.
+This Vagrant project will start a local kubernetes cluster, bootstrapped using kubeadm. 
 
-See this [link](https://kubernetes.io/docs/admin/kubeadm/) for details regrading kubeadm.
+See [here](https://kubernetes.io/docs/admin/kubeadm/) for details regrading kubeadm.
 
 ## Prerequisites
 
-The project has been tested and known to work with Vagrant v2.0.0. To Download Vagrant, head over to HashiCorp's Vagrant [download page](https://www.vagrantup.com/downloads.html).
+The project has been tested and known to work with Vagrant >=v2.0.0. To Download Vagrant, head over to HashiCorp's Vagrant [download page](https://www.vagrantup.com/downloads.html).
 
 ## Usage
 
 1. Clone the repo
-   ```shell
-   $ git clone https://github.com/HagaiBarel/k8s-vagrant.git
-   ```
-
-   This will drop you on the master branch. To switch to one of the tags, list the tags in the repo and checkout to a specific tag
-
-   ```shell
-   $ git tag -l
-   $ git checkout tags/<tag_name>
-   ```
+    ```shell
+    $ git clone https://github.com/HagaiBarel/k8s-vagrant.git
+    ```
 
 2. Open a terminal from the root of the repository, and run
 
-   ```shell
-   $ vagrant up
-   ```
+    ```shell
+    $ vagrant up
+    ```
 
 By default, Vagrant will preform the following:
 - Provision a Kubernetes master node, with the local ip of 192.168.77.10
@@ -59,7 +52,7 @@ There are a couple of options for doing that:
    $ kubectl get nodes --kubeconfig=k8s-vagrant
    ```
 
-2. Modify the $KUBECONFIG environment variable. The method changes from one OS to another, see this [link](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#set-the-kubeconfig-environment-variable) for details
+2. Modify the $KUBECONFIG environment variable. The method changes from one OS to another, see [here](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#set-the-kubeconfig-environment-variable) for details
 
 3. Merge the `k8s-vagrant` file contents with your `$HOME/.kube/config` file. Note that this option is the least preferred method, as you'll need to preform this action every time you run `vagrant up` from scratch.
 
@@ -80,6 +73,7 @@ box_ram_mb | `2048` | amount of ram (in Mb) for each VM
 master_ip | `192.168.77.10`| local IP for master node
 join_token | `7d0576.ee0f7f72653463dd` | token for connecting the master and workers
 worker_count | `3` | number of worker nodes
+kubernetes_version | `v1.10.2` | kubernetes api server version
 
 Feel free to modify these values to your needs.
 
@@ -87,19 +81,19 @@ Feel free to modify these values to your needs.
 
 Please note that by default, kubeadm starts the api server in RBAC authorization mode (see [here](https://kubernetes.io/docs/admin/authorization/rbac/) for further details). 
 
-While I strongly encourage using RBAC for authorization, it can cause some issues while trying to run Helm's server (tiller) in the cluster. This can be easily solved, and you can find the ServiceAccount and ClusterRoleBinding definitions in the root of the repo (look for `helm-rbac-config.yaml`).
+While I strongly encourage using RBAC for authorization, it can cause some issues when trying to run Helm's server (tiller) in the cluster. This can be easily solved, and you can find a script that bootstraps helm by creating the needed resources in the root of the repo (look for [bootstrap-helm.sh](./bootstrap-helm.sh)).
 
 To create the service account and role binding, and install tiller with the proper service account, run 
 
 ```shell
-$ kubectl create -f helm-rbac-config.yaml
-$ helm init --service-account tiller
+$ ./bootstrap-helm.sh
 ```
+
 from the terminal (using the `k8s-vagrant` context). Refer to [this](https://github.com/kubernetes/helm/blob/master/docs/service_accounts.md) link for further details.
 
-## Sharing
+## Sharing is Caring
 
-This project is licensed under the MIT license, which means you are free to use and modify it to your heart's desire, as long as you provide credit. See the license details [here](https://github.com/HagaiBarel/k8s-vagrant/blob/master/LICENSE).
+This project is licensed under the MIT license, which means you are free to use and modify it to your heart's desire, as long as you provide credit. See the license details [here](./LICENSE).
 
 Please note that this project is distributed As-Is, and no warranty is provided. <i>Use at your own risk.</i>
 
