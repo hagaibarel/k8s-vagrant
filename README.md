@@ -57,7 +57,7 @@ There are a couple of options for doing that:
 3. Merge the `k8s-vagrant` file contents with your `$HOME/.kube/config` file. Note that this option is the least preferred method, as you'll need to preform this action every time you run `vagrant up` from scratch.
 
 ### Clean up
-To delete the cluster and all resources, run `vagrant destroy` from the repo's root folder.
+To delete the cluster and all resources, run `vagrant destroy` from the repository's root folder.
 
 ## Defaults
 
